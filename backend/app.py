@@ -4,12 +4,14 @@ from flask import Flask, request, jsonify
 # VADER lexicon
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
+from flask_cors import CORS
 
 # Download the VADER lexicon for sentiment analysis (only the first time)
 nltk.download('vader_lexicon')
 
 # It shows Flask where it's located 
 app = Flask(__name__)
+CORS(app)
 # Initialises SentimentIntensity analysis 
 sia = SentimentIntensityAnalyzer()
 

@@ -1,0 +1,11 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+#inputText {
+  width: 400px;
+  height: 100px;
+}
+#sentimentResult {
+  margin-top: 20px;
+}
