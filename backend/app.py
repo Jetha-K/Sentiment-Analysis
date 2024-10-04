@@ -36,4 +36,4 @@ def analyze_sentiment():
 # checks if it's being directly run if it is 
 if __name__ == '__main__':
     # runs the flask server
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
