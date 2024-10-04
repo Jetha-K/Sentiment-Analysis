@@ -5,6 +5,9 @@ from flask import Flask, request, jsonify
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
+
+
 
 # Download the VADER lexicon for sentiment analysis (only the first time)
 nltk.download('vader_lexicon')
@@ -12,6 +15,8 @@ nltk.download('vader_lexicon')
 # It shows Flask where it's located 
 app = Flask(__name__)
 CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")  # Important: Allow cross-origin access
+
 # Initialises SentimentIntensity analysis 
 sia = SentimentIntensityAnalyzer()
 
@@ -32,6 +37,18 @@ def analyze_sentiment():
     sentiment_scores = sia.polarity_scores(text)
 
     return jsonify(sentiment_scores)  # Return the scores as JSON
+
+# WebSocket handler for real-time communication
+@socketio.on('message')
+def handle_message(data):
+    # Extract the text sent via WebSocket
+    text = data['text']
+
+    # Perform sentiment analysis using VADER
+    sentiment_scores = sia.polarity_scores(text)
+
+    # Emit the sentiment scores back to the client
+    emit('response', sentiment_scores)
 
 # checks if it's being directly run if it is 
 if __name__ == '__main__':

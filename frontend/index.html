@@ -10,16 +10,14 @@
   <body>
     <h1>Real-Time Sentiment Analysis</h1>
     <!-- Input text -->
+    <!-- Form for entering input -->
     <textarea id="inputText" placeholder="Type something..."></textarea>
-    <br />
-    <button onclick="analyzeSentiment()">Analyze Sentiment</button>
 
     <div id="sentimentResult">
       <h3>Sentiment Analysis Result:</h3>
-      <!-- fixed width preserves spaces and line breaks -->
       <pre id="result"></pre>
     </div>
-
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
