@@ -1,8 +1,10 @@
+    // run the code once the window has loaded
     window.onload = function() {
             // Initialize Socket.IO connection to Flask-SocketIO server
             var socket = io.connect('http://localhost:5001');  // Ensure this matches your backend port
 
             // Add event listener to the textarea for real-time input
+            // listens for if there's anything being inputted
             document.getElementById('inputText').addEventListener('input', function() {
                 var inputText = this.value;  // Get the current text in the textarea
 
