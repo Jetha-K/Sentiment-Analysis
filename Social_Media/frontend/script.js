@@ -5,7 +5,7 @@ window.onload = function() {
   function fetchHistorical() {
       console.log("Button clicked, starting fetch...");
 
-      const platform = 'twitter';
+      const platform = document.querySelector('input[name="platform"]:checked').value; // Get selected platform
       const keywords = { keywords: ['feminism', 'feminist', 'gender equality'] };
 
       fetch(`http://localhost:5500/historical/${platform}`, {
@@ -18,13 +18,31 @@ window.onload = function() {
       .then(response => {
           console.log("Fetch response:", response);
           if (!response.ok) {
-              throw new Error('Network response was not ok');
+              return response.json().then(err => { throw new Error(err.error); }); // Get error message from response
           }
           return response.json();
       })
       .then(data => {
           console.log("Data received:", data);  // Log the data received
-          document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+
+          // Clear previous results
+          const resultContainer = document.getElementById('result');
+          resultContainer.innerHTML = ''; 
+
+          // Display each post's title, content, and sentiment
+          data.forEach(post => {
+              const postElement = document.createElement('div');
+              postElement.classList.add('post');
+
+              postElement.innerHTML = `
+                  <h4>${post.title}</h4>
+                  <p>${post.content ? post.content : 'No content available'}</p>
+                  <pre>Sentiment: ${JSON.stringify(post.sentiment, null, 2)}</pre>
+                  <hr>
+              `;
+
+              resultContainer.appendChild(postElement);
+          });
       })
       .catch(error => {
           console.error('Error:', error);
@@ -32,5 +50,6 @@ window.onload = function() {
       });
   }
 
+  // Attach event listener to the button
   document.getElementById('analyzeButton').addEventListener('click', fetchHistorical);
 }
